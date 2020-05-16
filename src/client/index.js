@@ -2,11 +2,16 @@ import yolo from 'tfjs-yolo';
 
 (async () => {
     const video = document.getElementById('webcam');
-    video.srcObject = await navigator.mediaDevices.getUserMedia({video: true});
+    video.srcObject = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        facingMode: {
+            exact: 'environment'
+        }
+    });
     const model = await yolo.v1tiny();
-    setInterval(async () => {
+    while (true) {
         const objects = await model.predict(video);
         console.log(objects);
-        objects.forEach(object => speechSynthesis.speak(new SpeechSynthesisUtterance(object.class)))
-    }, 1000)
+        objects.forEach(object => speechSynthesis.speak(new SpeechSynthesisUtterance(object.class)));
+    }
 })()
