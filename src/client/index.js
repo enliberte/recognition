@@ -3,8 +3,9 @@ import yolo from 'tfjs-yolo';
 (async () => {
     const video = document.getElementById('webcam');
     video.srcObject = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        facingMode: 'environment'
+        video: {
+            facingMode: 'environment'
+        }
     });
     const model = await yolo.v1tiny();
     while (true) {
